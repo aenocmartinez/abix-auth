@@ -1,16 +1,14 @@
 package main
 
 import (
-	"abix360/src/dao"
+	"abix360/src/view/controller"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	r := gin.Default()
+	r.POST("/register", controller.Register)
 
-	for i := 0; i < 30; i++ {
-		dao.Instance()
-	}
-	// r := gin.Default()
-	// r.POST("/register", controller.Register)
-
-	// r.Run()
+	r.Run()
 }

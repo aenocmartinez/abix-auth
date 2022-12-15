@@ -1,0 +1,7 @@
+database:
+  driver: "mysql"
+  port: 3306
+  user: "root"
+  pass: "Abix.360*"
+  name: "abix_auth"
+  server: "127.0.0.1"
