@@ -7,6 +7,8 @@ type User struct {
 	email      string
 	password   string
 	state      bool
+	createdAt  string
+	updatedAt  string
 }
 
 func NewUser(name, email string) *User {
@@ -64,6 +66,24 @@ func (u *User) WithState(state bool) *User {
 func (u *User) WithRepository(repository UserRepository) *User {
 	u.repository = repository
 	return u
+}
+
+func (u *User) WithCreatedAt(createdAt string) *User {
+	u.createdAt = createdAt
+	return u
+}
+
+func (u *User) WithUpdatedAt(updatedAt string) *User {
+	u.updatedAt = updatedAt
+	return u
+}
+
+func (u *User) CreatedAt() string {
+	return u.createdAt
+}
+
+func (u *User) UpdatedAt() string {
+	return u.updatedAt
 }
 
 func (u *User) Exists() bool {

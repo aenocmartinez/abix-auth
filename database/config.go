@@ -23,7 +23,7 @@ var lock = &sync.Mutex{}
 var instance *ConnectDB
 
 func getConfig() *configYAML {
-	content, err := os.ReadFile(shared.GetRootPath() + "/cfg-database.yml")
+	content, err := os.ReadFile(shared.GetRootPath() + "/database/cfg-database.yml")
 	if err != nil {
 		log.Fatal("dao / datasource / Config / os.ReadFile: ", err)
 	}
