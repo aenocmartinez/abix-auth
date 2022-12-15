@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"abix360/src/domain"
-	"abix360/src/infraestructure/repositories/mysql"
+	"abix360/src/infraestructure/datasource/mysql"
 	"errors"
 )
 
