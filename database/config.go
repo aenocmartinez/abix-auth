@@ -1,7 +1,7 @@
 package database
 
 import (
-	"abix360/src/infraestructure/shared"
+	"abix360/shared"
 	"database/sql"
 	"log"
 	"os"
