@@ -123,6 +123,7 @@ func AuthorizeJWT() gin.HandlerFunc {
 		if !VerifyToken(token) {
 			c.JSON(http.StatusUnauthorized, gin.H{"message": "Token no válido"})
 			c.AbortWithStatus(http.StatusUnauthorized)
+			return
 		}
 
 		var repository domain.UserRepository = mysql.ConnectDBAuth()
@@ -130,6 +131,7 @@ func AuthorizeJWT() gin.HandlerFunc {
 		if !user.Exists() {
 			c.JSON(http.StatusUnauthorized, gin.H{"message": "Token no válido"})
 			c.AbortWithStatus(http.StatusUnauthorized)
+			return
 		}
 
 	}

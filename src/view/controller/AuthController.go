@@ -2,6 +2,7 @@ package controller
 
 import (
 	"abix360/src/usecase"
+	"abix360/src/view/dto"
 	formrequest "abix360/src/view/form-request"
 	"net/http"
 
@@ -73,4 +74,27 @@ func ResetPassword(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "La contraseña se ha actualizado con éxito"})
+}
+
+func UpdateInfoPersonal(c *gin.Context) {
+	var req formrequest.InfoPersonalFormRequest
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	useCase := usecase.UpdateInfoPersonalUseCase{}
+	code, err := useCase.Execute(dto.InfoPersonalDTO{
+		Name:  req.Name,
+		Email: req.Email,
+		Id:    req.Id,
+	})
+
+	if err != nil {
+		c.JSON(code, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "La información se ha actualizado con éxito"})
 }
