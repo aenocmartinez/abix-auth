@@ -22,7 +22,7 @@ func ConnectDBAuth() *UserDao {
 
 func (u *UserDao) Create(user domain.User) error {
 	var query bytes.Buffer
-	query.WriteString("INSERT INTO users(name, email, password) VALUES (?,?,?)")
+	query.WriteString("INSERT INTO users(name, email, password, state) VALUES (?,?,?,?)")
 
 	stmt, err := u.db.Source().Conn().Prepare(query.String())
 
@@ -30,7 +30,7 @@ func (u *UserDao) Create(user domain.User) error {
 		log.Println("abix-auth / UserDao / Create / conn.Prepare: ", err.Error())
 	}
 
-	_, err = stmt.Exec(user.Name(), user.Email(), user.Password())
+	_, err = stmt.Exec(user.Name(), user.Email(), user.Password(), user.State())
 	if err != nil {
 		log.Println("abix-auth / UserDao / Create / stmt.Exec: ", err.Error())
 	}

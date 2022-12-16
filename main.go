@@ -9,6 +9,7 @@ import (
 func main() {
 	r := gin.Default()
 	r.POST("/register", controller.Register)
+	r.POST("/login", controller.Login)
 
-	r.Run()
+	r.Run(":8080")
 }

@@ -25,3 +25,23 @@ func Register(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Usuario registrado exitosamente"})
 }
+
+func Login(c *gin.Context) {
+	var req formrequest.LoginFormRequest
+	err := c.ShouldBind(&req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	useCase := usecase.LoginUseCase{}
+	dataLogin, err := useCase.Execute(req.Email, req.Password)
+	if err != nil {
+		c.JSON(202, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"token": dataLogin.Token,
+		"_id":   dataLogin.Id,
+	})
+}

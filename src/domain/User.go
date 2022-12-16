@@ -15,6 +15,7 @@ func NewUser(name, email string) *User {
 	return &User{
 		name:  name,
 		email: email,
+		state: true,
 	}
 }
 
@@ -92,6 +93,10 @@ func (u *User) Exists() bool {
 
 func (u *User) Create() error {
 	return u.repository.Create(*u)
+}
+
+func (u *User) IsActive() bool {
+	return u.state
 }
 
 func FindUserByEmail(email string, repository UserRepository) User {
