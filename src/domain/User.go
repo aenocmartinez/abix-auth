@@ -98,7 +98,7 @@ func (u *User) Token() string {
 }
 
 func (u *User) Exists() bool {
-	return u.id > 0
+	return u.email != ""
 }
 
 func (u *User) Create() error {

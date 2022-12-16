@@ -42,15 +42,16 @@ func (u *UserDao) FindByEmail(email string) domain.User {
 	var user domain.User
 	var cad bytes.Buffer
 
-	cad.WriteString("SELECT id, name, email, password, token FROM users WHERE email = ?")
+	cad.WriteString("SELECT id, name, email, password, token, state FROM users WHERE email = ?")
 	row := u.db.Source().Conn().QueryRow(cad.String(), email)
 
 	var token sql.NullString
 	var name, password string
+	var state bool
 	var id int64
 
-	row.Scan(&id, &name, &email, &password, &token)
-	user = *domain.NewUser(name, email).WithId(id).WithPassword(password)
+	row.Scan(&id, &name, &email, &password, &token, &state)
+	user = *domain.NewUser(name, email).WithId(id).WithPassword(password).WithState(state)
 
 	if token.Valid {
 		user.WithToken(token.String)

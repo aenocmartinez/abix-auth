@@ -31,6 +31,8 @@ func main() {
 		routes.POST("/logout", controller.Logout)
 		routes.PUT("/reset-password", controller.ResetPassword)
 		routes.PUT("/update-info-personal", controller.UpdateInfoPersonal)
+		routes.GET("/user/:id", controller.FindUser)
+		routes.GET("/unsuscribe/:id", controller.UnsuscribeUser)
 	}
 
 	r.Run(":8080")
