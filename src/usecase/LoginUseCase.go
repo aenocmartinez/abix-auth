@@ -13,7 +13,8 @@ type LoginUseCase struct{}
 func (useCase *LoginUseCase) Execute(email, password string) (abixjwt.ResponseLogin, error) {
 	var responseLogin abixjwt.ResponseLogin
 	var repository domain.UserRepository = mysql.ConnectDBAuth()
-	user := domain.FindUserByEmail(email, repository)
+
+	var user domain.User = domain.FindUserByEmail(email, repository)
 	if !user.Exists() {
 		return responseLogin, errors.New("el usuario no existe")
 	}
@@ -30,6 +31,8 @@ func (useCase *LoginUseCase) Execute(email, password string) (abixjwt.ResponseLo
 	if err != nil {
 		log.Println("LoginUseCase / GenerateJWT: ", err.Error())
 	}
+
+	user.WithToken(tokendValid).WithRepository(repository).UpdateToken()
 
 	responseLogin.Email = email
 	responseLogin.Token = tokendValid

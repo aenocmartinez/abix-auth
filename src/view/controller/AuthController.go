@@ -45,3 +45,13 @@ func Login(c *gin.Context) {
 		"_id":   dataLogin.Id,
 	})
 }
+
+func Logout(c *gin.Context) {
+	useCase := usecase.LogoutUseCase{}
+	code, err := useCase.Execute(c)
+	if err != nil {
+		c.JSON(code, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(code, gin.H{"message": "su sesión ha finalizado con éxito"})
+}

@@ -6,6 +6,7 @@ type User struct {
 	name       string
 	email      string
 	password   string
+	token      string
 	state      bool
 	createdAt  string
 	updatedAt  string
@@ -79,12 +80,21 @@ func (u *User) WithUpdatedAt(updatedAt string) *User {
 	return u
 }
 
+func (u *User) WithToken(token string) *User {
+	u.token = token
+	return u
+}
+
 func (u *User) CreatedAt() string {
 	return u.createdAt
 }
 
 func (u *User) UpdatedAt() string {
 	return u.updatedAt
+}
+
+func (u *User) Token() string {
+	return u.token
 }
 
 func (u *User) Exists() bool {
@@ -99,6 +109,18 @@ func (u *User) IsActive() bool {
 	return u.state
 }
 
+func (u *User) UpdateToken() {
+	u.repository.UpdateToken(u.id, u.token)
+}
+
+func (u *User) IsEmptyToken() bool {
+	return len(u.token) == 0
+}
+
 func FindUserByEmail(email string, repository UserRepository) User {
 	return repository.FindByEmail(email)
+}
+
+func FindUserByToken(token string, repository UserRepository) User {
+	return repository.FindByToken(token)
 }

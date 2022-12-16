@@ -95,14 +95,17 @@ func getKeySecret() string {
 	return config.Jwt.Secret
 }
 
-func VerifyToken(c *gin.Context) bool {
-	const BEARER_SCHEMA = "Bearer "
-	authHeader := c.GetHeader("Authorization")
-	tokenString := strings.TrimSpace(authHeader[len(BEARER_SCHEMA):])
-
+func VerifyToken(tokenString string) bool {
 	token, err := isValidToken(tokenString)
 	if err != nil {
 		log.Fatal("abix-jwt / VerifyToken() / isValidToken: ", err)
 	}
 	return token.Valid
+}
+
+func GetTokenRequest(c *gin.Context) string {
+	const BEARER_SCHEMA = "Bearer "
+	authHeader := c.GetHeader("Authorization")
+	tokenString := strings.TrimSpace(authHeader[len(BEARER_SCHEMA):])
+	return tokenString
 }

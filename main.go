@@ -10,6 +10,7 @@ func main() {
 	r := gin.Default()
 	r.POST("/register", controller.Register)
 	r.POST("/login", controller.Login)
+	r.POST("/logout", controller.Logout)
 
 	r.Run(":8080")
 }
