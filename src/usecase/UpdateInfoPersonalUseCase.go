@@ -10,7 +10,7 @@ import (
 type UpdateInfoPersonalUseCase struct{}
 
 func (useCase *UpdateInfoPersonalUseCase) Execute(infoPersonal dto.InfoPersonalDTO) (int, error) {
-	var repository domain.UserRepository = mysql.ConnectDBAuth()
+	var repository domain.UserRepository = mysql.NewUserDao()
 	user := domain.FindUserById(infoPersonal.Id, repository)
 	if !user.Exists() {
 		return 202, errors.New("el usuario no existe")

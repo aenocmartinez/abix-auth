@@ -126,7 +126,7 @@ func AuthorizeJWT() gin.HandlerFunc {
 			return
 		}
 
-		var repository domain.UserRepository = mysql.ConnectDBAuth()
+		var repository domain.UserRepository = mysql.NewUserDao()
 		user := domain.FindUserByToken(token, repository)
 		if !user.Exists() {
 			c.JSON(http.StatusUnauthorized, gin.H{"message": "Token no válido"})

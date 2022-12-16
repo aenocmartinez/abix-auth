@@ -15,7 +15,7 @@ type UserDao struct {
 	db *database.ConnectDB
 }
 
-func ConnectDBAuth() *UserDao {
+func NewUserDao() *UserDao {
 	return &UserDao{
 		db: database.Instance(),
 	}

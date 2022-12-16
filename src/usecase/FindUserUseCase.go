@@ -11,7 +11,7 @@ type FindUserUseCase struct{}
 
 func (useCase *FindUserUseCase) Execute(id int64) (dto.InfoPersonalDTO, error) {
 	var userDto dto.InfoPersonalDTO
-	var repository domain.UserRepository = mysql.ConnectDBAuth()
+	var repository domain.UserRepository = mysql.NewUserDao()
 	user := domain.FindUserById(id, repository)
 	if !user.Exists() {
 		return userDto, errors.New("el usuario no existe")

@@ -12,7 +12,7 @@ type LoginUseCase struct{}
 
 func (useCase *LoginUseCase) Execute(email, password string) (abixjwt.ResponseLogin, error) {
 	var responseLogin abixjwt.ResponseLogin
-	var repository domain.UserRepository = mysql.ConnectDBAuth()
+	var repository domain.UserRepository = mysql.NewUserDao()
 
 	var user domain.User = domain.FindUserByEmail(email, repository)
 	if !user.Exists() {

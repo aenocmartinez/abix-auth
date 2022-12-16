@@ -10,7 +10,7 @@ import (
 type RegisterUseCase struct{}
 
 func (useCase *RegisterUseCase) Execute(name, email, password string) (int, error) {
-	var repository domain.UserRepository = mysql.ConnectDBAuth()
+	var repository domain.UserRepository = mysql.NewUserDao()
 
 	user := domain.FindUserByEmail(email, repository)
 	if user.Exists() {
