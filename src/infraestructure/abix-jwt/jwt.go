@@ -2,8 +2,11 @@ package abixjwt
 
 import (
 	"abix360/shared"
+	"abix360/src/dao/mysql"
+	"abix360/src/domain"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"strings"
 	"time"
@@ -98,7 +101,8 @@ func getKeySecret() string {
 func VerifyToken(tokenString string) bool {
 	token, err := isValidToken(tokenString)
 	if err != nil {
-		log.Fatal("abix-jwt / VerifyToken() / isValidToken: ", err)
+		log.Println("abix-jwt / VerifyToken() / isValidToken: ", err)
+		return false
 	}
 	return token.Valid
 }
@@ -106,6 +110,27 @@ func VerifyToken(tokenString string) bool {
 func GetTokenRequest(c *gin.Context) string {
 	const BEARER_SCHEMA = "Bearer "
 	authHeader := c.GetHeader("Authorization")
+	if len(authHeader) == 0 {
+		return ""
+	}
 	tokenString := strings.TrimSpace(authHeader[len(BEARER_SCHEMA):])
 	return tokenString
+}
+
+func AuthorizeJWT() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		token := GetTokenRequest(c)
+		if !VerifyToken(token) {
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "Token no válido"})
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
+
+		var repository domain.UserRepository = mysql.ConnectDBAuth()
+		user := domain.FindUserByToken(token, repository)
+		if !user.Exists() {
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "Token no válido"})
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
+
+	}
 }

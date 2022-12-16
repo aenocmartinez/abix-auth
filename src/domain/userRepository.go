@@ -5,4 +5,6 @@ type UserRepository interface {
 	FindByEmail(email string) User
 	UpdateToken(id int64, token string) error
 	FindByToken(token string) User
+	FindById(id int64) User
+	Update(user User) error
 }

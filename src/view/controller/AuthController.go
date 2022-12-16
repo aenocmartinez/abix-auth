@@ -31,6 +31,7 @@ func Login(c *gin.Context) {
 	err := c.ShouldBind(&req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	useCase := usecase.LoginUseCase{}
@@ -54,4 +55,22 @@ func Logout(c *gin.Context) {
 		return
 	}
 	c.JSON(code, gin.H{"message": "su sesión ha finalizado con éxito"})
+}
+
+func ResetPassword(c *gin.Context) {
+	var req formrequest.ResetPasswordFormRequest
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	useCase := usecase.ResetPasswordUseCase{}
+	code, err := useCase.Execute(req.Id, req.Password)
+	if err != nil {
+		c.JSON(code, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "La contraseña se ha actualizado con éxito"})
 }

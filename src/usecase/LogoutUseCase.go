@@ -24,11 +24,11 @@ func (useCase *LogoutUseCase) Execute(c *gin.Context) (int, error) {
 		return 202, errors.New("su sesión ha caducado")
 	}
 
-	if token != user.Token() {
-		return 202, errors.New("su sesión ha caducado")
-	}
-
 	user.WithRepository(repository).WithToken("").UpdateToken()
+
+	// if token != user.Token() {
+	// 	return 202, errors.New("su sesión ha caducado 2")
+	// }
 
 	return 200, nil
 }

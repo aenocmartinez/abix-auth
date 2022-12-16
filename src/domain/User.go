@@ -117,10 +117,18 @@ func (u *User) IsEmptyToken() bool {
 	return len(u.token) == 0
 }
 
+func (u *User) Update() error {
+	return u.repository.Update(*u)
+}
+
 func FindUserByEmail(email string, repository UserRepository) User {
 	return repository.FindByEmail(email)
 }
 
 func FindUserByToken(token string, repository UserRepository) User {
 	return repository.FindByToken(token)
+}
+
+func FindUserById(id int64, repository UserRepository) User {
+	return repository.FindById(id)
 }
