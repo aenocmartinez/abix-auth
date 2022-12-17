@@ -25,6 +25,7 @@ func main() {
 
 	r.POST("/abix360/v1/register", controller.Register)
 	r.POST("/abix360/v1/login", controller.Login)
+	r.GET("/abix360/v1/validate-token", controller.ValidatedToken)
 
 	routes := r.Group("/abix360/v1", validateHeader(), abixjwt.AuthorizeJWT())
 	{

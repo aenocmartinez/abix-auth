@@ -145,3 +145,8 @@ func UnsuscribeUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "el usuario ha sido dado de baja del sistema"})
 }
+
+func ValidatedToken(c *gin.Context) {
+	useCase := usecase.ValidatedTokenUseCase{}
+	c.JSON(http.StatusBadRequest, gin.H{"isValid": useCase.Execute(c)})
+}
