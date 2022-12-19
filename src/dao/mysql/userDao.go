@@ -100,15 +100,15 @@ func (u *UserDao) FindById(id int64) domain.User {
 	var user domain.User
 	var cad bytes.Buffer
 
-	cad.WriteString("SELECT id, name, email, password, token, state FROM users WHERE id = ?")
+	cad.WriteString("SELECT id, name, email, password, token, state, created_at FROM users WHERE id = ?")
 	row := u.db.Source().Conn().QueryRow(cad.String(), id)
 
 	var token sql.NullString
-	var name, email, password string
+	var name, email, password, createdAt string
 	var state bool
 
-	row.Scan(&id, &name, &email, &password, &token, &state)
-	user = *domain.NewUser(name, email).WithId(id).WithPassword(password).WithState(state)
+	row.Scan(&id, &name, &email, &password, &token, &state, &createdAt)
+	user = *domain.NewUser(name, email).WithId(id).WithPassword(password).WithState(state).WithCreatedAt(createdAt)
 
 	if token.Valid {
 		user.WithToken(token.String)

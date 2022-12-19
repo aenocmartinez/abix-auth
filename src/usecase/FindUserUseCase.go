@@ -21,6 +21,7 @@ func (useCase *FindUserUseCase) Execute(id int64) (dto.InfoPersonalDTO, error) {
 	userDto.Name = user.Name()
 	userDto.Id = user.Id()
 	userDto.State = user.State()
+	userDto.CreatedAt = user.CreatedAt()
 
 	return userDto, nil
 }
