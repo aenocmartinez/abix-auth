@@ -20,6 +20,7 @@ func (useCase *FindUserUseCase) Execute(id int64) (dto.InfoPersonalDTO, error) {
 	userDto.Email = user.Email()
 	userDto.Name = user.Name()
 	userDto.Id = user.Id()
+	userDto.State = user.State()
 
 	return userDto, nil
 }
