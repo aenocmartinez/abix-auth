@@ -132,3 +132,27 @@ func (u *UserDao) Update(user domain.User) error {
 	}
 	return err
 }
+
+func (u *UserDao) AllUsers() []domain.User {
+	var users []domain.User
+	var strQuery bytes.Buffer
+
+	strQuery.WriteString("SELECT id, name, email, state, created_at FROM users order by name")
+	rows, err := u.db.Source().Conn().Query(strQuery.String())
+	if err != nil {
+		log.Println("abix-auth / UserDao / AllUsers / s.db.Source().Conn().Query: ", err.Error())
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var name, email, createdAt string
+		var state bool
+		var id int64
+		rows.Scan(&id, &name, &email, &state, &createdAt)
+		user := domain.NewUser(name, email)
+		user.WithId(id).WithState(state).WithCreatedAt(createdAt)
+		users = append(users, *user)
+	}
+
+	return users
+}

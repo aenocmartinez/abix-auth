@@ -7,4 +7,5 @@ type UserRepository interface {
 	FindByToken(token string) User
 	FindById(id int64) User
 	Update(user User) error
+	AllUsers() []User
 }

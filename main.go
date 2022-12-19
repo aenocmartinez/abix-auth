@@ -34,6 +34,8 @@ func main() {
 		routes.PUT("/update-info-personal", controller.UpdateInfoPersonal)
 		routes.GET("/user/:id", controller.FindUser)
 		routes.GET("/unsuscribe/:id", controller.UnsuscribeUser)
+		routes.GET("/users", controller.AllUsers)
+		routes.GET("/activate-user/:id", controller.ActivateUser)
 	}
 
 	r.Run(":8080")

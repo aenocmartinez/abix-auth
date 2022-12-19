@@ -150,3 +150,33 @@ func ValidatedToken(c *gin.Context) {
 	useCase := usecase.ValidatedTokenUseCase{}
 	c.JSON(http.StatusBadRequest, gin.H{"isValid": useCase.Execute(c)})
 }
+
+func AllUsers(c *gin.Context) {
+	useCase := usecase.ListUsersUseCase{}
+	users := useCase.Execute()
+
+	c.JSON(http.StatusOK, gin.H{"data": users})
+}
+
+func ActivateUser(c *gin.Context) {
+	var strId string = c.Param("id")
+	if len(strId) == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "parámetro no válido"})
+		return
+	}
+
+	id, err := strconv.Atoi(strId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "parámetro no válido"})
+		return
+	}
+
+	useCase := usecase.ActivateUserUseCase{}
+	code, err := useCase.Execute(int64(id))
+	if err != nil {
+		c.JSON(code, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "el usuario ha sido activado"})
+}

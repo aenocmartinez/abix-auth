@@ -132,3 +132,7 @@ func FindUserByToken(token string, repository UserRepository) User {
 func FindUserById(id int64, repository UserRepository) User {
 	return repository.FindById(id)
 }
+
+func AllUsers(repository UserRepository) []User {
+	return repository.AllUsers()
+}
